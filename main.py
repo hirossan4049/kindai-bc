@@ -75,7 +75,6 @@ while True:
   elif y < 0:
     y = 0
 
-  # 左上、右上、左下、右下の4点の座標
   points = [[x, y], [x + BALL_SIZE, y], [x, y + BALL_SIZE], [x + BALL_SIZE, y + BALL_SIZE]]
 
   for point in points:
@@ -86,15 +85,11 @@ while True:
 
     try:
       if maze[math.floor(row_i)][math.floor(column_i)] == 1:
-        if (column_i + 1) * box_size < point[0]:
-          x = old_x
-        if (row_i + 1) * box_size < point[1]:
-          y = old_y
-        # x = old_x#int(box_size * column_i)
-        # y = old_y#int(box_size * row_i)
+        x = old_x
+        y = old_y
     except:
-        x = old_x# int(box_size * column_i)
-        y = old_y# int(box_size * row_i)
+        x = old_x
+        y = old_y
 
 
   dot_label.setPosition(x, y)
