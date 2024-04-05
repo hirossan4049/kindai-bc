@@ -1,19 +1,20 @@
 from m5stack import *
 from m5ui import M5Rect, M5TextBox
+import m5stack_ui
 from uiflow import *
 import imu
-import math
 import random
-# from mazes import maze2, maze2_length
+from mazes import maze1_length, maze1, maze2_length, maze2, maze3_length, maze3
 
-maze1_length = 11
-maze1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1], [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1], [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1], [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 3], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+# maze1_length = 11
+# maze1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1], [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1], [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1], [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 3], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
-maze2_length = 11
-maze2 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [2, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1], [1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1], [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1], [1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1], [1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1], [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 3], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+# maze2_length = 11
+# maze2 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [2, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1], [1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1], [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1], [1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1], [1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1], [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 3], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
-maze3_length = 22
-maze3 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [2, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1], [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1], [1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1], [1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1], [1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1], [1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1], [1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1], [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1], [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1], [1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1], [1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1], [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+# maze3_length = 22
+# maze3 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [2, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1], [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1], [1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1], [1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1], [1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1], [1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1], [1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1], [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1], [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1], [1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1], [1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1], [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 3], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+
 
 
 DEBUG = True
@@ -23,13 +24,16 @@ BALL_SIZE = 6
 
 screen = M5Screen()
 screen.clean_screen()
-screen.set_screen_bg_color(0x000000)
-screen.set_screen_brightness(30)
+screen.set_screen_bg_color(0xffffff)
+# screen.set_screen_brightness(30)
 imu0 = imu.IMU()
 
 debug_text = M5TextBox(110, 0, str(WIDTH), lcd.FONT_Default, 0xff0000, rotate=0)
 
 def setup_maze(maze, box_size):
+  screen.clean_screen()
+  screen.set_screen_bg_color(0xffffff)
+
   for (row_i, row) in enumerate(maze):
     for (column_i, column) in enumerate(row):
       x = int(box_size * column_i)
@@ -60,8 +64,17 @@ def game_loop(maze, maze_length, box_size):
   while True:
     old_x = x
     old_y = y
-    x += int(round(imu0.ypr[2], -1))
-    y += int(round(imu0.ypr[1], -1))
+    new_x = int(round(imu0.ypr[2], -1))
+    new_y = int(round(imu0.ypr[1], -1))
+
+    # 勢い余らせてブロック貫通してしまうのを防ぐ
+    if abs(new_x) > 10:
+      new_x = 0
+    if abs(new_y) > 10:
+      new_y = 0
+
+    x += new_x #int(round(imu0.ypr[2], -1))
+    y += new_y #int(round(imu0.ypr[1], -1))
 
     # 外枠壁判定
     if x > (WIDTH - BALL_SIZE):
@@ -93,11 +106,9 @@ def game_loop(maze, maze_length, box_size):
           x = old_x
           y = old_y
 
-    print(old_x, old_y, x, y, column_i, row_i, column, goal)
-
     dot_label.setPosition(x, y)
     screen.clean_screen()
-    # debug_text.setText(str(x) + " " + str(y))
+    # debug_text.setText(str(x) + " " + str(y)),
     wait_ms(40)
 
     if goal:
@@ -108,15 +119,37 @@ def game_loop(maze, maze_length, box_size):
       M5TextBox(100, 100, "GOAL", lcd.FONT_Default, 0xff0000, rotate=0)
       break
 
-
-
 stages = [(maze1, maze1_length),
           (maze2, maze2_length),
           (maze3, maze3_length)]
 
-while True:
+
+startBtn = m5stack_ui.M5Btn(text='START',
+                             x=20, y=167, w=280, h=48, 
+                             bg_c=0xffffff, text_c=0x000000,
+                             font=m5stack_ui.FONT_MONT_14, parent=None)
+
+def ended_game():
+  screen.clean_screen()
+  screen.set_screen_bg_color(0xffffff)
+  clearBtn = m5stack_ui.M5Btn(text='CLEAR',
+                             x=20, y=167, w=280, h=48, 
+                             bg_c=0xffffff, text_c=0x000000,
+                             font=m5stack_ui.FONT_MONT_14, parent=None)
+  clearBtn.pressed(start)
+
+def start():
+  screen.clean_screen()
+  screen.set_screen_bg_color(0x000000)
+  power.setVibrationEnable(True)
+  wait(0.2)
+  power.setVibrationEnable(False)
+
   for (maze, maze_length) in stages:
     box_size = int(MAZE_SIZE / maze_length)
 
     setup_maze(maze, box_size)
     game_loop(maze, maze_length, box_size)
+  ended_game()
+
+startBtn.pressed(start)
