@@ -6,9 +6,8 @@ This is a simple maze game for the M5Stack.
 
 - make
 - adafruit-ampy
-optional:
 - screen
-- screen
+- python3(convert.py)
 
 ## setup
 `Makefile`の`AMPY_PORT`をいい感じにしてください。
