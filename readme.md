@@ -10,7 +10,7 @@ This is a simple maze game for the M5Stack.
 - python3(convert.py)
 
 ## setup
-`Makefile`の`AMPY_PORT`をいい感じにしてください。
+`Makefile`の`AMPY_PORT`を環境に合わせて変更してください。
 
 ## 転送
 

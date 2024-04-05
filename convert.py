@@ -1,6 +1,5 @@
 
 def convert_maze2array(maze):
-  # FIXME
   return [[int(i) for i in line.split("\t")] for line in maze.split("\n")]
 
 maze1 = """\
@@ -43,9 +42,6 @@ maze3 = """\
 1	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	3
 1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1\
 """
-
-# maze_length
-# お気持ち最適化
 
 print(f"""
 maze1_length = 11
