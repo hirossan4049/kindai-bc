@@ -5,6 +5,8 @@ from uiflow import *
 import imu
 import random
 
+# MARK: ./mazes.py
+# importのバグが頻繁に発生するのでファイル理由していない
 maze1_length = 11
 maze1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1], [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1], [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1], [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 3], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
@@ -116,27 +118,22 @@ def game_loop(maze, maze_length, box_size):
       wait(0.2)
       power.setVibrationEnable(False)
       screen.clean_screen()
-      M5TextBox(100, 100, "GOAL", lcd.FONT_Default, 0xff0000, rotate=0)
       break
 
 stages = [(maze1, maze1_length),
           (maze2, maze2_length),
           (maze3, maze3_length)]
 
-
-startBtn = m5stack_ui.M5Btn(text='START',
-                             x=20, y=167, w=280, h=48, 
-                             bg_c=0xffffff, text_c=0x000000,
-                             font=m5stack_ui.FONT_MONT_14, parent=None)
-
 def ended_game():
   screen.clean_screen()
   screen.set_screen_bg_color(0xffffff)
-  clearBtn = m5stack_ui.M5Btn(text='CLEAR',
+  M5TextBox(95, 21, "CLEAR!", lcd.FONT_DejaVu40, 0xFFFFFF, rotate=0)
+
+  clearBtn = m5stack_ui.M5Btn(text='CLOSE',
                              x=20, y=167, w=280, h=48, 
                              bg_c=0xffffff, text_c=0x000000,
                              font=m5stack_ui.FONT_MONT_14, parent=None)
-  clearBtn.pressed(start)
+  clearBtn.pressed(start_screen)
 
 def start():
   screen.clean_screen()
@@ -152,4 +149,14 @@ def start():
     game_loop(maze, maze_length, box_size)
   ended_game()
 
-startBtn.pressed(start)
+
+def start_screen():
+  M5TextBox(40, 40, "MAZE GAME", lcd.FONT_DejaVu40, 0x000000, rotate=0)
+
+  startBtn = m5stack_ui.M5Btn(text='START',
+                              x=20, y=167, w=280, h=48, 
+                              bg_c=0xffffff, text_c=0x000000,
+                              font=m5stack_ui.FONT_MONT_14, parent=None)
+  startBtn.pressed(start)
+
+start_screen()
