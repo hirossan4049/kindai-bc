@@ -127,7 +127,7 @@ stages = [(maze1, maze1_length),
 def ended_game():
   screen.clean_screen()
   screen.set_screen_bg_color(0xffffff)
-  M5TextBox(95, 21, "CLEAR!", lcd.FONT_DejaVu40, 0xFFFFFF, rotate=0)
+  M5TextBox(95, 40, "CLEAR!", lcd.FONT_DejaVu40, 0x000000, rotate=0)
 
   clearBtn = m5stack_ui.M5Btn(text='CLOSE',
                              x=20, y=167, w=280, h=48, 
